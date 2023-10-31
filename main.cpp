@@ -5,7 +5,7 @@
 #include "Convolution.h"
 
 
-void main(){
+int main(){
 
     // Create a matrix directly using direct initialization
     const double* directData1[3] = {
@@ -16,5 +16,5 @@ void main(){
 
     ImageMatrix matrix1(directData1, 3, 3);    
     
-
+    return 0;
 }
