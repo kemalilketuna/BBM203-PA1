@@ -38,7 +38,6 @@ ImageMatrix::ImageMatrix(const std::string &filepath) {
 }
 
 
-
 // Destructor
 ImageMatrix::~ImageMatrix() {
 }
@@ -88,3 +87,10 @@ double ImageMatrix::get_data(int i, int j) const {
 
 }
 
+int ImageMatrix::get_height() const {
+    return height;
+}
+
+int ImageMatrix::get_width() const {
+    return width;
+}
