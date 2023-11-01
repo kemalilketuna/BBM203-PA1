@@ -2,6 +2,8 @@
 
 #include "DecodeMessage.h"
 #include <iostream>
+#include <vector>
+#include <bitset>
 
 // Default constructor
 DecodeMessage::DecodeMessage() {
@@ -13,7 +15,6 @@ DecodeMessage::~DecodeMessage() {
     // Nothing specific to clean up
 }
 
-
 std::string DecodeMessage::decodeFromImage(const ImageMatrix& image, const std::vector<std::pair<int, int>>& edgePixels) {
     std::string binaryString;
 
@@ -21,10 +22,18 @@ std::string DecodeMessage::decodeFromImage(const ImageMatrix& image, const std::
     for (const auto& pixel : edgePixels) {
         int x = pixel.first;
         int y = pixel.second;
-        int pixelValue = image.get_data()[x][y]; // Assuming there's a method to get pixel value
+        int pixelValue = image.get_data(x, y);
         binaryString += std::to_string(pixelValue & 1); // Extract LSB
     }
 
+    if (binaryString.length() % 7 != 0) {
+        // Pad the binary string with 0s to make it divisible by 7
+        int padding = 7 - (binaryString.length() % 7);
+        for (int i = 0; i < padding; i++) {
+            binaryString = "0" + binaryString;            
+        }
+    }
+    
     // Convert the binary string to ASCII
     std::string decodedMessage;
     for (size_t i = 0; i < binaryString.length(); i += 7) {
@@ -43,4 +52,3 @@ std::string DecodeMessage::decodeFromImage(const ImageMatrix& image, const std::
 
     return decodedMessage;
 }
-

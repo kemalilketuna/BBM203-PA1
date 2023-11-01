@@ -14,7 +14,7 @@ class DecodeMessage {
         std::string decodeFromImage(const ImageMatrix& image, const std::vector<std::pair<int, int>>& edgePixels);
     
     private:
-        // Any private helper functions or variables if necessary    
+        // Any private helper functions or variables if necessary  
 };
 
 #endif // DECODE_MESSAGE_H
