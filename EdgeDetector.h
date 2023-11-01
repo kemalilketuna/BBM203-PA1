@@ -13,7 +13,8 @@
             std::vector<std::pair<int, int>> detectEdges(const ImageMatrix& input_image);
 
         private:
-            // add your private member variables and functions 
+            double** Gx;
+            double** Gy;
     };
 
     #endif // EDGE_DETECTOR_H

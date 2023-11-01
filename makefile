@@ -19,7 +19,7 @@ SRCS = Convolution.cpp \
 OBJS = $(SRCS:.cpp=.o)
 
 # Output executable name
-TARGET = my_program
+TARGET = main
 
 all: $(TARGET)
 
