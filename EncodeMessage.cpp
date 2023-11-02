@@ -68,7 +68,7 @@ ImageMatrix EncodeMessage::encodeMessageToImage(const ImageMatrix &img, const st
     // 3. Message Embedding
     ImageMatrix newImg = img;
     for (int i = 0; i < shiftedMessage.size() && i < positions.size(); i++) {
-        std::bitset<8> charBits(shiftedMessage[i]);
+        std::bitset<7> charBits(shiftedMessage[i]);
         newImg.get_data()[positions[i].first][positions[i].second] = charBits[0];
     }
 
