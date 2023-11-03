@@ -70,9 +70,10 @@ ImageMatrix Convolution::convolve(const ImageMatrix& input_image) const {
         for (int i = 0; i < newImage.get_height(); ++i) {
             for (int j = 0; j < newImage.get_width(); ++j) {
                 if (i == 0 || j == 0 || i == newImage.get_height() - 1 || j == newImage.get_width() - 1) {
-                    newImage.get_data()[i][j] = 0;
+                    newImage.set_data(i, j, 0.0);
                 } else {
-                    newImage.get_data()[i][j] = input_image.get_data()[i - 1][j - 1];
+                    double value = input_image.get_data(i - 1, j - 1);
+                    newImage.set_data(i, j, value);
                 }
             }
         }
@@ -90,10 +91,10 @@ ImageMatrix Convolution::convolve(const ImageMatrix& input_image) const {
             double sum = 0;
             for (int k = 0; k < kernelHeight; ++k) {
                 for (int l = 0; l < kernelWidth; ++l) {
-                    sum += kernel[k][l] * newImage.get_data()[i + k][j + l];
+                    sum += kernel[k][l] * newImage.get_data(i + k, j + l);
                 }
             }
-            convolvedImage.get_data()[i/stride][j/stride] = sum;
+            convolvedImage.set_data(i/stride, j/stride, sum);
         }
     }
     return convolvedImage;

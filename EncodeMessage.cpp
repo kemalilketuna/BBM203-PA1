@@ -3,7 +3,6 @@
 #include <vector>
 
 
-
 // Default Constructor
 EncodeMessage::EncodeMessage() {
 
@@ -30,14 +29,6 @@ double EncodeMessage::binary_to_decimal(const std::string &binary) {
     return decimal;
 }
 
-std::string EncodeMessage::right_circle_shift(const std::string &message, int shift) {
-    std::string shifted_message = message;
-    for (int i = 0; i < shift; ++i) {
-        shifted_message = shifted_message[shifted_message.size()-1] + shifted_message;
-        shifted_message.pop_back();
-    }
-    return shifted_message;
-}
 
 std::string EncodeMessage::decimal_to_binary(int decimal, bool is_seven_bit) {
     std::string binary = "";
@@ -89,32 +80,28 @@ int EncodeMessage::fibonacci(int n) {
 }
 
 
+// Function to encode a message into an image matrix
+ImageMatrix EncodeMessage::encodeMessageToImage(const ImageMatrix &img, const std::string &message,
+                                                const std::vector<std::pair<int, int>>& positions){
 
-// Function to transform the message characters
-std::string EncodeMessage::transformMessage(const std::string &message) {
+    // Transform the message
     std::string transformedMessage = message;
     for (size_t i = 0; i < message.size(); ++i) {
         if (isPrime(i)) {
             int asciiValue = static_cast<int>(message[i]);
             asciiValue += fibonacci(i);
-            // Ensure the character is printable within the ASCII range of 33 to 126
+            // If the ascii value is less than 32, add 33 to it
+            // If the ascii value is greater than 127, set it to 126
             if (asciiValue <= 32) asciiValue += 33;
             if (asciiValue >= 127) asciiValue = 126;
             transformedMessage[i] = static_cast<char>(asciiValue);
         }
     }
-    return transformedMessage;
-}
 
-// Function to encode a message into an image matrix
-ImageMatrix EncodeMessage::encodeMessageToImage(const ImageMatrix &img, const std::string &message,
-                                                const std::vector<std::pair<int, int>>& positions){
-
-    // Transform the message according to the criteria
-    std::string transformedMessage = transformMessage(message);
-
-    // Perform right circular shift on the transformed message
-    std::string shifted_message = right_circle_shift(transformedMessage, (transformedMessage.size() / 2));
+    // Shift the transformed message
+    int shift = transformedMessage.size() / 2;
+    size_t length = transformedMessage.size();
+    std::string shifted_message = transformedMessage.substr(length - shift, shift) + transformedMessage.substr(0, length - shift);
 
     // Convert the shifted message to binary
     std::string binary_message = string_to_binary(shifted_message);

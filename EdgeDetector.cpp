@@ -43,7 +43,8 @@ std::vector<std::pair<int, int>> EdgeDetector::detectEdges(const ImageMatrix& in
     ImageMatrix gradientMagnitude(input_image.get_height(), input_image.get_width());
     for (int i = 0; i < input_image.get_height(); i++) {
         for (int j = 0; j < input_image.get_width(); j++) {
-            gradientMagnitude.get_data()[i][j] = sqrt(pow(gradientX.get_data()[i][j], 2) + pow(gradientY.get_data()[i][j], 2));
+            double data = sqrt(pow(gradientX.get_data(i, j), 2) + pow(gradientY.get_data(i, j), 2));
+            gradientMagnitude.set_data(i, j, data);
         }
     }
 

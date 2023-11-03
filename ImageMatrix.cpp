@@ -156,3 +156,29 @@ int ImageMatrix::get_height() const {
 int ImageMatrix::get_width() const {
     return width;
 }
+
+// Setter function to set the value at the index (i, j)
+void ImageMatrix::set_data(int i, int j, double value) {
+    if(i < 0 || i >= height || j < 0 || j >= width) {
+        // Error handling: Throw an exception or return
+        return;
+    }
+    data[i][j] = value;
+}
+
+// Setter function to set the data in the matrix
+void ImageMatrix::set_data(double** inputMatrix, int imgHeight, int imgWidth) {
+    if(imgHeight != height || imgWidth != width) {
+        for (int i = 0; i < height; i++) {
+            delete[] data[i];
+        }
+        delete[] data;
+        height = imgHeight;
+        width = imgWidth;
+    }
+    for(int i = 0; i < height; i++) {
+        for(int j = 0; j < width; j++) {
+            data[i][j] = inputMatrix[i][j];
+        }
+    }
+}
