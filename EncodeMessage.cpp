@@ -113,30 +113,15 @@ ImageMatrix EncodeMessage::encodeMessageToImage(const ImageMatrix &img, const st
     ImageMatrix encoded_image = img;
 
     // Iterate over the provided positions
-    for (std::pair<int,int> position : positions) {
-        // If the binary message is empty, break out of the loop
-        if (binary_message.empty()) {
-            break;
-        }
-
-        if (position.first < 0 || position.first >= img.get_width() ||
-            position.second < 0 || position.second >= img.get_height()) {
-            continue;  // Skip invalid positions
-        }
-
-        double pixel = img.get_data(position.first, position.second);
-        std::string binary_value_of_pixel = decimal_to_binary(pixel);
-
-        // Replace the least significant bit of the pixel's binary value with the first bit of the binary message
-        binary_value_of_pixel[binary_value_of_pixel.size() - 1] = binary_message[0];
-
-        // Remove the used bit from the binary message
-        binary_message.erase(0, 1);
-
-        // Convert the modified binary pixel value back to decimal and update the image matrix
-        encoded_image.set_data(position.first, position.second, binary_to_decimal(binary_value_of_pixel));
+    for(size_t i=0; i < positions.size()&& i < binary_message.size(); i++){
+        int x = positions[i].first;
+        int y = positions[i].second;
+        int pixelValue = img.get_data(x, y);
+        std::string binaryValueOfPixel = decimal_to_binary(pixelValue);
+        binaryValueOfPixel[binaryValueOfPixel.size() - 1] = binary_message[i];
+        encoded_image.set_data(x, y, binary_to_decimal(binaryValueOfPixel));
     }
-
+    
     return encoded_image;
 }
 
