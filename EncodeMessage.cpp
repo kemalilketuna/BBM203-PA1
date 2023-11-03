@@ -59,35 +59,41 @@ std::string EncodeMessage::string_to_binary(const std::string &message) {
 
 
 // Function to check if a number is prime
-bool EncodeMessage::isPrime(int n) {
-    if (n <= 1) return false;
-    if (n <= 3) return true;
-    if (n % 2 == 0 || n % 3 == 0) return false;
-    int i = 5;
-    while (i * i <= n) {
-        if (n % i == 0 || n % (i + 2) == 0) return false;
-        i += 6;
+bool EncodeMessage::isPrime(int num) {
+    if (num <= 1) {
+        return false; // 0 and 1 are not prime numbers
     }
-    return true;
+    for (int i = 2; i <= sqrt(num); ++i) {
+        if (num % i == 0) {
+            return false; // Found a divisor, not prime
+        }
+    }
+    return true; // No divisors found, number is prime
 }
 
 // Function to get the nth Fibonacci number
 int EncodeMessage::fibonacci(int n) {
-    if (n <= 1) return n;
-    int a = 0, b = 1, next;
-    for (int i = 2; i <= n; i++) {
-        next = a + b;
-        a = b;
-        b = next;
+    if (n <= 1) {
+        return n;
     }
-    return b;
+
+    int previous = 0, current = 1;
+
+    for (int i = 2; i <= n; i++) {
+        int next = previous + current;
+        previous = current;
+        current = next;
+    }
+
+    return current;
 }
+
 
 
 // Function to transform the message characters
 std::string EncodeMessage::transformMessage(const std::string &message) {
     std::string transformedMessage = message;
-    for (int i = 0; i < message.size(); ++i) {
+    for (size_t i = 0; i < message.size(); ++i) {
         if (isPrime(i)) {
             int asciiValue = static_cast<int>(message[i]);
             asciiValue += fibonacci(i);

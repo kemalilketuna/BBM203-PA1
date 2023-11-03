@@ -45,7 +45,8 @@ void compare_images(const ImageMatrix& im1, const ImageMatrix& im2, double& scor
                 score += 1.0;
             } 
             else{
-                cout << "im1_value: " << im1_value << " expected: " << im2_value << " at " << i << "," << j <<endl;
+                cout << "im1_value: " << im1.get_data()[i][j] << " expected: " << im2.get_data()[i][j] << " at " << i << "," << j <<endl;
+                // cout << "im1_value: " << im1_value << " expected: " << im2_value << " at " << i << "," << j <<endl;
 
             }
         }
@@ -80,6 +81,7 @@ void test_conv(double& score, int& total_number){
     ImageMatrix expected_image(directData2, 3, 3);
 
     // compare the convolved image with the expected image
+    cout << "TEST 1" << endl;
     compare_images(convolved_image1, expected_image, score, total_number);
 
 
@@ -103,6 +105,7 @@ void test_conv(double& score, int& total_number){
     ImageMatrix expected_image2(expectedData2, 5, 5);
 
     // compare the convolved image with the expected image
+    cout << "TEST 2" << endl;
     compare_images(convolved_image2, expected_image2, score, total_number);
 
 
@@ -129,6 +132,7 @@ void test_sharpening(double& score, int& total_number){
     ImageMatrix expected_image(expectedData, 5, 5);
 
     // compare the convolved image with the expected image
+    cout << "TEST 3" << endl;
     compare_images(sharpened_image, expected_image, score, total_number);
 
 
@@ -157,7 +161,7 @@ void test_edge_detection(double& score, int& total_number){
     };
 
     // Compare the output with the expected output
-    for (int i = 0; i < edgePixels.size(); i++) {
+    for (size_t i = 0; i < edgePixels.size(); i++) {
         total_number += 1;
         if (edgePixels[i] == expectedEdgePixels[i]) {
             score += 1.0;
@@ -236,6 +240,7 @@ void test_encode_mssg(double& score, int& total_number){
     ImageMatrix expectedMatrix1(expected_data1, 10, 10);
 
     // compare the convolved image with the expected image
+    cout << "TEST 4" << endl;
     compare_images(im1_encoded, expectedMatrix1, score, total_number);
 
 }
@@ -291,6 +296,7 @@ void img_processor_encode(double& score, int& total_number){
 
     // compare the encoded image with the expected image
     ImageMatrix expectedImage1(expected_data1, 5, 5);
+    cout << "TEST 5" << endl;
     compare_images(encodedImage, expectedImage1, score, total_number);    
 
 }
