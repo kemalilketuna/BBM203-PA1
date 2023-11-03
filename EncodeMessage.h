@@ -16,9 +16,10 @@ public:
 private:
     // Any private helper functions or variables if necessary
     std::string string_to_binary(const std::string &message);
+    std::string string_to_binary2(const std::string& text);
     bool isPrime(int n);
     int fibonacci(int n);
-    std::string decimal_to_binary(int decimal, bool pad);
+    std::string decimal_to_binary(int decimal);
     double binary_to_decimal(const std::string &binary);    
 };
 

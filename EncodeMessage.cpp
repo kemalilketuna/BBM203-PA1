@@ -1,7 +1,7 @@
 #include "EncodeMessage.h"
 #include <cmath>
-#include <vector>
-
+#include <bitset>
+#include <algorithm>
 
 // Default Constructor
 EncodeMessage::EncodeMessage() {
@@ -30,24 +30,27 @@ double EncodeMessage::binary_to_decimal(const std::string &binary) {
 }
 
 
-std::string EncodeMessage::decimal_to_binary(int decimal, bool is_seven_bit) {
+std::string EncodeMessage::decimal_to_binary(int number) {
+    if (number == 0) return "0";
+
     std::string binary = "";
-    int bit_size = (is_seven_bit) ? 7 : 8;
-    for (int i = 0; i < bit_size; ++i) {
-        binary = std::to_string(decimal % 2) + binary;
-        decimal = decimal / 2;
+    while (number > 0) {
+        binary += (number % 2) ? '1' : '0'; // Append '1' or '0' depending on the remainder
+        number /= 2; // Divide the number by 2
     }
+
+    std::reverse(binary.begin(), binary.end()); // The binary string is in reverse order
     return binary;
 }
 
-std::string EncodeMessage::string_to_binary(const std::string &message) {
-    std::string binary_message = "";
-    for (char c : message){
-        binary_message += decimal_to_binary(c, true);
+std::string EncodeMessage::string_to_binary(const std::string& text) {
+    std::string binaryString = "";
+    for (char c : text) {
+        // Convert each character to a binary string of length 7
+        binaryString += std::bitset<7>(c).to_string();
     }
-    return binary_message;
+    return binaryString;
 }
-
 
 // Function to check if a number is prime
 bool EncodeMessage::isPrime(int num) {
@@ -122,16 +125,16 @@ ImageMatrix EncodeMessage::encodeMessageToImage(const ImageMatrix &img, const st
         }
 
         double pixel = img.get_data(position.first, position.second);
-        std::string binary_value_of_current_pixel = decimal_to_binary(pixel, false);
+        std::string binary_value_of_pixel = decimal_to_binary(pixel);
 
         // Replace the least significant bit of the pixel's binary value with the first bit of the binary message
-        binary_value_of_current_pixel[binary_value_of_current_pixel.size() - 1] = binary_message[0];
+        binary_value_of_pixel[binary_value_of_pixel.size() - 1] = binary_message[0];
 
         // Remove the used bit from the binary message
         binary_message.erase(0, 1);
 
         // Convert the modified binary pixel value back to decimal and update the image matrix
-        encoded_image.set_data(position.first, position.second, binary_to_decimal(binary_value_of_current_pixel));
+        encoded_image.set_data(position.first, position.second, binary_to_decimal(binary_value_of_pixel));
     }
 
     return encoded_image;
