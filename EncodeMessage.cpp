@@ -131,7 +131,7 @@ ImageMatrix EncodeMessage::encodeMessageToImage(const ImageMatrix &img, const st
         binary_message.erase(0, 1);
 
         // Convert the modified binary pixel value back to decimal and update the image matrix
-        encoded_image.get_data()[position.first][position.second] = binary_to_decimal(binary_value_of_current_pixel);
+        encoded_image.set_data(position.first, position.second, binary_to_decimal(binary_value_of_current_pixel));
     }
 
     return encoded_image;

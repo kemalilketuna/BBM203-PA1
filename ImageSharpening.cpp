@@ -36,9 +36,9 @@ ImageMatrix ImageSharpening::sharpen(const ImageMatrix& input_image, double k) {
         for (int j = 0; j < Isharp.get_width(); ++j) {
             double pixelValue = Isharp.get_data(i, j);
             if (pixelValue < 0) {
-                Isharp.get_data()[i][j] = 0;
+                Isharp.set_data(i, j, 0.0);
             } else if (pixelValue > 255) {
-                Isharp.get_data()[i][j] = 255;
+                Isharp.set_data(i, j, 255.0);
             }
         }
     }
